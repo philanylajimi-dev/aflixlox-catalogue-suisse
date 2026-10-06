@@ -1,0 +1,1015 @@
+/**
+ * AF Lix Lox — catalogue professionnel Suisse
+ *
+ * Parti pris repris du site : encre quasi noire, orange de marque réservé aux
+ * accents, neutres chauds pour les surfaces, aucun arrondi, titres en Jost,
+ * texte en Inter, et tous les chiffres en IBM Plex Mono — dans un catalogue de
+ * prix, les nombres sont la typographie principale, pas une décoration.
+ *
+ * Le rythme vertical est volontairement plus serré que sur la boutique : on
+ * consulte ce document pour trouver un prix, pas pour se laisser raconter une
+ * histoire.
+ */
+
+/* ------------------------------------------------------------------ *
+ * 1. Jetons
+ * ------------------------------------------------------------------ */
+
+:root {
+  --ink: #0e0e0e;
+  --ink-rgb: 14 14 14;
+  --accent: #ed7d1f;
+  --accent-rgb: 237 125 31;
+  /* L'orange sur blanc plafonne à 2,6:1 : le texte fin utilise la variante
+     foncée (4,7:1). Jamais de copie courante en --accent. */
+  --accent-deep: #a65209;
+
+  --surface: #ffffff;
+  --surface-alt: #f7f5f2;
+  --surface-sink: #efebe5;
+  --surface-dark: #111111;
+  --line: #e5e1da;
+  --line-strong: #cfc9c0;
+
+  --font-display: 'Jost', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Échelle d'espacement — une seule, tenue partout. */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+
+  --gutter: clamp(1.125rem, 4vw, 2.5rem);
+  --wrap: 72rem;
+  --section-y: clamp(2.75rem, 6vw, 4.75rem);
+
+  --ease: cubic-bezier(0.22, 0.68, 0.24, 1);
+  --dur: 320ms;
+
+  /* Hauteur réelle de la barre collante. JavaScript la remesure au chargement
+     et au redimensionnement ; cette valeur sert de repli. */
+  --nav-h: 5.5rem;
+
+  /* Catalogue de marque : pas de variante sombre, et surtout pas celle que le
+     navigateur fabriquerait tout seul. */
+  color-scheme: light;
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Socle
+ * ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* Les ancres ne doivent pas passer sous la barre collante. */
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+p { margin: 0; text-wrap: pretty; }
+ul, ol, dl, dd { margin: 0; padding: 0; }
+li { list-style: none; }
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--accent); color: var(--ink); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.u-vh {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.u-skip {
+  position: absolute;
+  inset-block-start: -100%;
+  inset-inline-start: var(--s-4);
+  z-index: 100;
+  padding: var(--s-3) var(--s-4);
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.8125rem;
+}
+
+.u-skip:focus { inset-block-start: var(--s-3); }
+
+.l-wrap {
+  width: 100%;
+  max-width: calc(var(--wrap) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.u-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+}
+
+/* ------------------------------------------------------------------ *
+ * 3. En-tête et navigation
+ * ------------------------------------------------------------------ */
+
+.h-bar {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 50;
+  background: rgb(255 255 255 / 0.94);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-block-end: 1px solid var(--line);
+}
+
+.h-bar__haut {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding-block: 0.625rem;
+}
+
+.h-logo img {
+  height: 1.375rem;
+  width: auto;
+}
+
+.h-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-rgb) / 0.6);
+  white-space: nowrap;
+}
+
+.h-meta__sep {
+  width: 1.25rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.h-nav {
+  border-block-start: 1px solid var(--line);
+}
+
+.h-nav__piste {
+  display: flex;
+  gap: var(--s-5);
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* Les chips doivent pouvoir filer jusqu'au bord sur mobile. */
+  scroll-padding-inline: var(--gutter);
+}
+
+.h-nav__piste::-webkit-scrollbar { display: none; }
+
+/* Une piste en défilement horizontal n'honore pas son padding de fin : ce
+   talon rend la gouttière au dernier onglet. */
+.h-nav__piste::after {
+  content: '';
+  flex: 0 0 calc(var(--gutter) - var(--s-5));
+}
+
+.h-nav a {
+  position: relative;
+  flex: 0 0 auto;
+  padding-block: 0.6875rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-rgb) / 0.55);
+  transition: color var(--dur) var(--ease);
+  white-space: nowrap;
+}
+
+.h-nav a::after {
+  content: '';
+  position: absolute;
+  inset-block-end: -1px;
+  inset-inline: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur) var(--ease);
+}
+
+.h-nav a:hover,
+.h-nav a[aria-current] { color: var(--ink); }
+.h-nav a[aria-current]::after { transform: scaleX(1); }
+
+/* ------------------------------------------------------------------ *
+ * 4. Ouverture
+ * ------------------------------------------------------------------ */
+
+.s-hero {
+  padding-block: clamp(2.25rem, 6vw, 4rem) clamp(2rem, 4vw, 3rem);
+  border-block-end: 1px solid var(--line);
+}
+
+.s-hero__titre {
+  margin-block-start: var(--s-4);
+  font-size: clamp(1.9rem, 5.6vw, 3.25rem);
+  letter-spacing: -0.028em;
+}
+
+.s-hero__lede {
+  margin-block-start: var(--s-4);
+  max-width: 48ch;
+  font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
+  line-height: 1.65;
+  color: rgb(var(--ink-rgb) / 0.68);
+}
+
+.s-hero__chiffres {
+  display: grid;
+  gap: 1px;
+  margin-block-start: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--line);
+  border: 1px solid var(--line);
+  grid-template-columns: 1fr;
+}
+
+.s-hero__chiffres li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding: var(--s-4);
+  background: var(--surface);
+}
+
+.s-hero__chiffres .n {
+  font-family: var(--font-mono);
+  font-size: clamp(1.25rem, 3.2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.s-hero__chiffres .l {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: rgb(var(--ink-rgb) / 0.6);
+}
+
+/* ------------------------------------------------------------------ *
+ * 5. En-têtes de section
+ * ------------------------------------------------------------------ */
+
+.s-section { padding-block: var(--section-y); }
+
+.s-section--alt { background: var(--surface-alt); }
+
+/* Deux sections de même fond qui se suivent ont besoin d'une césure. */
+.s-section + .s-section { border-block-start: 1px solid var(--line); }
+
+.s-tete {
+  max-width: 44ch;
+  margin-block-end: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.s-tete__num {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-block-end: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--accent-deep);
+}
+
+.s-tete__num::after {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.s-tete__titre { font-size: clamp(1.5rem, 3.6vw, 2.125rem); }
+.s-tete__titre--sm { font-size: clamp(1.25rem, 2.8vw, 1.625rem); }
+
+.s-tete__intro {
+  margin-block-start: var(--s-3);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: rgb(var(--ink-rgb) / 0.66);
+}
+
+.s-tete--serree { margin-block-end: var(--s-5); }
+
+.s-tete--clair .s-tete__num { color: var(--accent); }
+.s-tete--clair .s-tete__intro { color: rgb(255 255 255 / 0.66); }
+
+/* ------------------------------------------------------------------ *
+ * 6. Offres — première commande
+ * ------------------------------------------------------------------ */
+
+.s-offres {
+  padding-block: var(--section-y);
+  background: var(--surface-dark);
+  color: #fff;
+}
+
+.o-grille {
+  display: grid;
+  gap: 1px;
+  padding: 1px;
+  grid-template-columns: 1fr;
+}
+
+.o-carte {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-dark);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.16);
+}
+
+.o-carte__visuel {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #fff;
+}
+
+.o-carte__visuel img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4%;
+  /* Les packshots arrivent détourés sur blanc : multiply fond le cadre blanc
+     dans la tuile sans halo. */
+  mix-blend-mode: multiply;
+}
+
+.o-carte__corps {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--s-5) var(--s-5) var(--s-6);
+}
+
+.o-carte__rang {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-3);
+  line-height: 1.5;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.55);
+}
+
+.o-carte__rang span {
+  padding: 0.1875rem 0.375rem;
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.o-carte__titre {
+  margin-block-start: var(--s-4);
+  font-size: clamp(1.375rem, 3.4vw, 1.75rem);
+  letter-spacing: -0.02em;
+}
+
+.o-carte__titre sup { font-size: 0.55em; }
+
+.o-detail {
+  margin-block-start: var(--s-5);
+  border-block-start: 1px solid rgb(255 255 255 / 0.16);
+}
+
+.o-ligne {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding-block: 0.625rem;
+  border-block-end: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.o-ligne dt {
+  font-size: 0.8125rem;
+  color: rgb(255 255 255 / 0.6);
+}
+
+.o-ligne dd {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* La dernière ligne porte le chiffre que le salon retient. */
+.o-ligne:last-child dd { color: var(--accent); }
+
+.o-carte__note {
+  margin-block-start: auto;
+  padding-block-start: var(--s-4);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.55);
+}
+
+/* ------------------------------------------------------------------ *
+ * 7. Offres — réassort
+ * ------------------------------------------------------------------ */
+
+.s-reassort {
+  padding-block: var(--section-y);
+  background: var(--surface-sink);
+}
+
+.r-grille {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-columns: 1fr;
+}
+
+.r-bloc {
+  padding: var(--s-5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.r-bloc__titre {
+  padding-block-end: var(--s-3);
+  border-block-end: 1px solid var(--ink);
+  font-size: 1.0625rem;
+}
+
+.r-liste { display: grid; gap: var(--s-4); margin-block-start: var(--s-4); }
+
+.r-formule + .r-formule {
+  padding-block-start: var(--s-4);
+  border-block-start: 1px dashed var(--line-strong);
+}
+
+.r-formule__qte {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.r-formule__qte em {
+  font-style: normal;
+  color: var(--accent-deep);
+}
+
+.r-formule__total {
+  margin-block-start: var(--s-1);
+  font-size: 0.8125rem;
+  color: rgb(var(--ink-rgb) / 0.6);
+}
+
+.r-formule__prix {
+  margin-block-start: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.r-formule__unite {
+  font-size: 0.75rem;
+  color: rgb(var(--ink-rgb) / 0.55);
+}
+
+/* ------------------------------------------------------------------ *
+ * 8. Gammes de coloration
+ * ------------------------------------------------------------------ */
+
+/* Les deux gammes restent l'une sous l'autre : en deux colonnes, la carte
+   horizontale n'a plus la largeur de texte nécessaire avant 1400px. */
+.g-grille {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-columns: 1fr;
+}
+
+.g-carte {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+/* Le visuel perd son aspect-ratio en disposition horizontale : c'est alors la
+   colonne de texte qui donne la hauteur. L'image est positionnée pour que sa
+   hauteur se résolve dans tous les cas. */
+.g-carte__visuel {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--surface);
+  border-block-end: 1px solid var(--line);
+}
+
+.g-carte__visuel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--s-4);
+  mix-blend-mode: multiply;
+}
+
+.g-carte__corps {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--s-5);
+}
+
+.g-carte__marque {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-rgb) / 0.5);
+}
+
+.g-carte__nom {
+  margin-block-start: var(--s-2);
+  font-size: clamp(1.375rem, 3.2vw, 1.625rem);
+}
+
+.g-carte__nom span {
+  display: block;
+  font-size: 0.8125rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-block-start: var(--s-2);
+}
+
+.g-carte__accroche {
+  margin-block-start: var(--s-3);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: rgb(var(--ink-rgb) / 0.68);
+}
+
+.g-carte__nuances {
+  margin-block-start: var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface-alt);
+  border-inline-start: 2px solid var(--accent);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.g-carte__nuances strong { font-weight: 600; }
+
+.g-familles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-block-start: var(--s-4);
+}
+
+.g-familles li {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: rgb(var(--ink-rgb) / 0.7);
+}
+
+.g-carte__pied {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-block-start: auto;
+  padding-block-start: var(--s-5);
+}
+
+.g-carte__taille {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-rgb) / 0.6);
+}
+
+/* ------------------------------------------------------------------ *
+ * 9. Activateurs
+ * ------------------------------------------------------------------ */
+
+.a-bloc {
+  display: grid;
+  gap: 0;
+  margin-block-start: var(--s-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  grid-template-columns: 1fr;
+}
+
+.a-bloc__visuel {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  border-block-end: 1px solid var(--line);
+}
+
+.a-bloc__visuel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--s-4);
+  mix-blend-mode: multiply;
+}
+
+.a-bloc__corps { padding: var(--s-5); }
+
+.a-bloc__note {
+  margin-block-start: var(--s-2);
+  font-size: 0.8125rem;
+  color: rgb(var(--ink-rgb) / 0.62);
+}
+
+.a-table {
+  width: 100%;
+  margin-block-start: var(--s-4);
+  border-collapse: collapse;
+}
+
+.a-table th,
+.a-table td {
+  padding-block: 0.5625rem;
+  border-block-end: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  vertical-align: baseline;
+}
+
+.a-table thead th {
+  padding-block-end: var(--s-2);
+  border-block-end-color: var(--ink);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-rgb) / 0.5);
+}
+
+.a-table tbody th {
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-align: left;
+}
+
+.a-table td,
+.a-table thead th {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.a-table tbody td {
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.a-bloc__dev {
+  margin-block-start: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-rgb) / 0.5);
+}
+
+/* ------------------------------------------------------------------ *
+ * 10. Groupes et cartes produit
+ * ------------------------------------------------------------------ */
+
+.c-groupe + .c-groupe { margin-block-start: clamp(2rem, 4vw, 3rem); }
+.s-section .a-bloc + .c-groupe { margin-block-start: clamp(2rem, 4vw, 3rem); }
+
+.c-groupe__tete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-4);
+  padding-block-end: var(--s-3);
+  margin-block-end: var(--s-5);
+  border-block-end: 1px solid var(--ink);
+}
+
+.c-groupe__marque {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-rgb) / 0.5);
+  margin-block-end: var(--s-1);
+}
+
+.c-groupe__nom { font-size: 1.1875rem; }
+
+.c-groupe__note {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+}
+
+/* Le filet de séparation est porté par les cartes, pas par le fond de la grille :
+   une dernière rangée incomplète laisserait sinon apparaître un aplat beige à la
+   place des cellules manquantes. Les anneaux de 1px des cartes voisines se
+   recouvrent dans la gouttière et ne forment qu'un seul trait. */
+.c-grille {
+  display: grid;
+  gap: 1px;
+  padding: 1px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.c-carte {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.c-carte__visuel {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.c-carte__visuel img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8%;
+  mix-blend-mode: multiply;
+  transition: transform 600ms var(--ease);
+}
+
+.c-carte:hover .c-carte__visuel img { transform: scale(1.04); }
+
+.c-carte__corps {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--s-4);
+  padding-block-start: var(--s-3);
+}
+
+.c-carte__taille {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-rgb) / 0.55);
+}
+
+.c-carte__nom {
+  margin-block-start: var(--s-2);
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+
+.c-carte__note {
+  margin-block-start: var(--s-2);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: rgb(var(--ink-rgb) / 0.6);
+}
+
+/* ------------------------------------------------------------------ *
+ * 11. Prix
+ * ------------------------------------------------------------------ */
+
+.c-prix {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3125rem;
+  margin-block-start: auto;
+  padding-block-start: var(--s-3);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.c-prix__val { font-size: 1.0625rem; }
+
+.c-prix__cts { font-size: 0.78em; }
+
+.c-prix__dev {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: rgb(var(--ink-rgb) / 0.55);
+}
+
+.c-prix--lg .c-prix__val { font-size: 1.75rem; }
+.c-prix--lg .c-prix__dev { font-size: 0.75rem; }
+
+/* ------------------------------------------------------------------ *
+ * 12. Pied de page
+ * ------------------------------------------------------------------ */
+
+.f-pied {
+  padding-block: clamp(2.5rem, 5vw, 3.5rem);
+  background: var(--surface-dark);
+  color: rgb(255 255 255 / 0.72);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.f-pied__grille {
+  display: grid;
+  gap: var(--s-6);
+  grid-template-columns: 1fr;
+}
+
+.f-pied__marque img {
+  height: 1.5rem;
+  width: auto;
+  margin-block-end: var(--s-3);
+}
+
+.f-pied h2 {
+  margin-block-end: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.f-pied__col p + p { margin-block-start: var(--s-3); }
+
+.f-pied__maj {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgb(255 255 255 / 0.45);
+}
+
+/* ------------------------------------------------------------------ *
+ * 13. Paliers
+ * ------------------------------------------------------------------ */
+
+@media (min-width: 34em) {
+  .s-hero__chiffres { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 48em) {
+  :root { --nav-h: 6.25rem; }
+
+  .h-bar__haut { padding-block: 0.875rem; }
+  .h-logo img { height: 1.625rem; }
+
+  .c-grille { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .r-grille { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .c-groupe__note { text-align: right; }
+
+  .g-carte { flex-direction: row; }
+  .g-carte__visuel {
+    flex: 0 0 38%;
+    aspect-ratio: auto;
+    border-block-end: 0;
+    border-inline-end: 1px solid var(--line);
+  }
+
+  .a-bloc { grid-template-columns: 0.9fr 1.1fr; }
+  .a-bloc__visuel {
+    aspect-ratio: auto;
+    border-block-end: 0;
+    border-inline-end: 1px solid var(--line);
+  }
+  .a-bloc__corps { padding: var(--s-6); }
+
+  /* Sur tablette, l'offre coloration prend toute la largeur : c'est elle qui
+     porte l'essentiel du volume d'une commande salon. */
+  .o-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .o-carte--vedette { grid-column: 1 / -1; }
+  .o-carte--vedette .o-carte__visuel { aspect-ratio: 21 / 9; }
+  .o-carte__visuel { aspect-ratio: 4 / 3; }
+
+  .f-pied__grille { grid-template-columns: 1fr 1fr 1fr; gap: var(--s-7); }
+}
+
+@media (min-width: 62em) {
+  .c-grille { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  .o-grille { grid-template-columns: 1.3fr 1fr 1fr; }
+  .o-carte--vedette { grid-column: auto; }
+  .o-carte--vedette .o-carte__visuel { aspect-ratio: 4 / 3; }
+
+  .g-carte__visuel { flex-basis: 34%; }
+  .g-carte__corps { padding: var(--s-6); }
+}
+
+/* ------------------------------------------------------------------ *
+ * 14. Apparition
+ * ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js-reveal {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  .js-reveal.is-in {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 520ms var(--ease),
+      transform 520ms var(--ease);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * 15. Impression — un salon imprime volontiers sa liste de prix.
+ * ------------------------------------------------------------------ */
+
+@media print {
+  .h-bar, .u-skip { display: none; }
+  body { font-size: 10pt; }
+  .s-offres, .f-pied { background: #fff; color: #000; }
+  .s-offres .o-carte,
+  .s-offres .s-tete__intro,
+  .f-pied, .f-pied p { color: #000; }
+  .o-carte { background: #fff; }
+  .s-section, .s-reassort { background: #fff; }
+  .c-carte, .o-carte, .g-carte, .r-bloc { break-inside: avoid; }
+  .js-reveal { opacity: 1 !important; transform: none !important; }
+}
