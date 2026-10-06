@@ -44,10 +44,10 @@ OFFRES_PREMIERE = [
         "image": "coloration-color-7-0-100-ml",
         "lignes": [
             {"l": "Tubes reçus", "v": "48"},
-            {"l": "Color · 24 × 10.40", "v": "249.60 CHF",
-             "s": "5.20 le tube", "a": True},
-            {"l": "Ekstra Color · 24 × 10.90", "v": "261.60 CHF",
-             "s": "5.45 le tube", "a": True},
+            {"l": "Color<span class=\"o-ligne__calcul\">24 × 10.40</span>",
+             "v": "249.60 CHF", "s": "5.20 le tube", "a": True},
+            {"l": "Ekstra Color — Sans ammoniaque<span class=\"o-ligne__calcul\">24 × 10.90</span>",
+             "v": "261.60 CHF", "s": "5.45 le tube", "a": True},
         ],
         "note": "Toutes les nuances des deux gammes, au choix. Les colorations "
                 "disposent de leur propre offre&nbsp;: la remise de −50 % ne "
@@ -106,16 +106,15 @@ OFFRES_SUIVANTES = [
         "note": "Le nombre de tubes offerts progresse avec le volume commandé.",
     },
     {
-        "famille": "Colorations Ekstra Color",
-        "sous": "10.90 CHF le tube de 100 ml, sans ammoniaque",
+        "famille": "Colorations Ekstra Color — Sans ammoniaque",
+        "sous": "10.90 CHF le tube de 100 ml",
         "formules": [
             {"achat": "12 achetés", "offert": "+ 2 offerts", "total": "14 tubes",
              "prix": "130.80 CHF", "unite": "9.34 CHF le tube"},
             {"achat": "24 achetés", "offert": "+ 6 offerts", "total": "30 tubes",
              "prix": "261.60 CHF", "unite": "8.72 CHF le tube"},
         ],
-        "note": "Mêmes mécaniques que la gamme Color, au tarif de la gamme "
-                "sans ammoniaque.",
+        "note": "Mêmes mécaniques et mêmes paliers que la gamme Color.",
     },
     {
         "famille": "Bidons 10 L",
@@ -565,7 +564,7 @@ SECTIONS = [
 
 ACTIVATEURS = {
     "titre": "Activateurs",
-    "sous_titre": "Émulsion oxydante crème, pour Color et Ekstra Color",
+    "sous_titre": "Émulsion oxydante crème, pour Color et Ekstra Color — Sans ammoniaque",
     "contenance": "Flacon de 1 000 ml",
     "image": "activateur-20-volumes-1000-ml",
     "lignes": [

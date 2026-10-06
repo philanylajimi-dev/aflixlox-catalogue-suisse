@@ -455,20 +455,36 @@ a { color: inherit; text-decoration: none; }
 }
 
 .o-ligne dt {
+  /* Le libellé absorbe le manque de place ; un montant coupé en deux lignes
+     serait illisible. */
+  flex: 1 1 auto;
+  min-width: 0;
   font-size: 0.8125rem;
   color: rgb(255 255 255 / 0.6);
 }
 
 .o-ligne dd {
+  flex: 0 0 auto;
   font-family: var(--font-mono);
   font-size: 0.9375rem;
   font-weight: 500;
   text-align: right;
+  white-space: nowrap;
 }
 
 /* L'accent est posé ligne par ligne, sur le chiffre que le salon retient —
    et non sur la dernière, qui n'est pas toujours la bonne. */
 .o-ligne--accent dd { color: var(--accent); }
+
+/* Le calcul passe sous le nom de gamme : avec « — Sans ammoniaque » le tout ne
+   tient plus sur une ligne à la largeur d'un téléphone. */
+.o-ligne__calcul {
+  display: block;
+  margin-block-start: 0.125rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgb(255 255 255 / 0.45);
+}
 
 .o-ligne__sous {
   display: block;
