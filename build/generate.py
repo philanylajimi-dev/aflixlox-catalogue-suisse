@@ -173,15 +173,19 @@ def section(s, produits, valides, alt=False, eager=False):
 def bloc_offres(produits):
     cartes = []
     for o in C.OFFRES_PREMIERE:
-        lignes = "".join(
-            f'<div class="o-ligne"><dt>{lab}</dt><dd>{val}</dd></div>'
-            for lab, val in o["lignes"])
+        lignes = []
+        for g in o["lignes"]:
+            sous = f'<span class="o-ligne__sous">{g["s"]}</span>' if g.get("s") else ""
+            accent = " o-ligne--accent" if g.get("a") else ""
+            lignes.append(
+                f'<div class="o-ligne{accent}"><dt>{g["l"]}</dt>'
+                f'<dd>{g["v"]}{sous}</dd></div>')
         cartes.append(f"""<article class="o-carte{' o-carte--vedette' if o['vedette'] else ''}">
   <div class="o-carte__visuel">{img(o['image'], eager=o['vedette'])}</div>
   <div class="o-carte__corps">
     <p class="o-carte__rang"><span>{o['rang']}</span>{o['famille']}</p>
     <h3 class="o-carte__titre">{o['titre']}</h3>
-    <dl class="o-detail">{lignes}</dl>
+    <dl class="o-detail">{''.join(lignes)}</dl>
     <p class="o-carte__note">{o['note']}</p>
   </div>
 </article>""")
@@ -189,6 +193,7 @@ def bloc_offres(produits):
     suivantes = []
     for f in C.OFFRES_SUIVANTES:
         note = f'<p class="r-bloc__note">{f["note"]}</p>' if f.get("note") else ""
+        sous = f'<p class="r-bloc__sous">{f["sous"]}</p>' if f.get("sous") else ""
         formules = "".join(f"""<li class="r-formule">
       <p class="r-formule__qte"><span>{x['achat']}</span>{f'<em>{x["offert"]}</em>' if x['offert'] else ''}</p>
       <p class="r-formule__total">{x['total']}</p>
@@ -197,6 +202,7 @@ def bloc_offres(produits):
     </li>""" for x in f["formules"])
         suivantes.append(f"""<div class="r-bloc">
     <h3 class="r-bloc__titre">{f['famille']}</h3>
+    {sous}
     <ul class="r-liste">{formules}</ul>
     {note}
   </div>""")
@@ -205,13 +211,14 @@ def bloc_offres(produits):
   <div class="l-wrap">
     <header class="s-tete s-tete--clair">
       <p class="s-tete__num">01</p>
-      <h2 class="s-tete__titre" id="t-offres">Première commande</h2>
-      <p class="s-tete__intro">Trois conditions d'ouverture de compte, valables ensemble
-        sur une même première commande.</p>
+      <h2 class="s-tete__titre" id="t-offres">Offres professionnelles&nbsp;: première commande</h2>
+      <p class="s-tete__intro">Trois offres distinctes, une par catégorie, à l'ouverture
+        du compte.</p>
     </header>
     <div class="o-grille">
 {chr(10).join(cartes)}
     </div>
+    <p class="o-clarif">{C.OFFRES_CLARIFICATION}</p>
   </div>
 </section>
 
@@ -219,7 +226,8 @@ def bloc_offres(produits):
   <div class="l-wrap">
     <header class="s-tete s-tete--serree">
       <h2 class="s-tete__titre s-tete__titre--sm" id="t-reassort">Puis, à chaque réassort</h2>
-      <p class="s-tete__intro">Les conditions permanentes, sans minimum de commande.</p>
+      <p class="s-tete__intro">Les conditions permanentes, sans minimum de commande.
+        Sur les colorations, l'avantage progresse avec le volume.</p>
     </header>
     <div class="r-grille">
 {chr(10).join(suivantes)}
@@ -265,9 +273,9 @@ def bloc_colorations(produits, valides):
     <header class="s-tete">
       <p class="s-tete__num">02</p>
       <h2 class="s-tete__titre" id="t-colorations">Colorations 100 ml</h2>
-      <p class="s-tete__intro">Deux gammes, avec ou sans ammoniaque. Les tons se
-        choisissent au moment de la commande&nbsp;: indiquez-moi vos numéros,
-        je prépare le colis.</p>
+      <p class="s-tete__intro">Deux gammes, avec ou sans ammoniaque. Toutes les
+        nuances sont disponibles&nbsp;: indiquez-nous les numéros de ton souhaités
+        au moment de la commande.</p>
     </header>
 
     <div class="g-grille">
@@ -320,11 +328,11 @@ def rendre(produits, valides):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AF Lix Lox — Catalogue professionnel Suisse</title>
-<meta name="description" content="Tarifs salon AF Lix Lox en Suisse : colorations 100 ml, bidons de shampoing 10 L, masques grand format, soins et technique. Prix professionnels en CHF.">
+<meta name="description" content="Catalogue professionnel AF Lix Lox Suisse : colorations, formats 10 L, masques, soins et produits techniques aux tarifs professionnels, en CHF.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0e0e0e">
 <meta property="og:title" content="AF Lix Lox — Catalogue professionnel Suisse">
-<meta property="og:description" content="Colorations, bidons 10 L, masques et soins. Tarifs professionnels en CHF.">
+<meta property="og:description" content="Colorations, formats professionnels 10 L, masques, soins et produits techniques aux tarifs professionnels AF Lix Lox Suisse.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/img/aflixlox-logo.png">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -352,16 +360,18 @@ def rendre(produits, valides):
 
 <section class="s-hero">
   <div class="l-wrap">
-    <p class="u-kicker">Catalogue professionnel · Salons de coiffure</p>
-    <h1 class="s-hero__titre">Vos tarifs salon,<br>en une seule page.</h1>
-    <p class="s-hero__lede">Colorations, bidons de 10 litres, masques grand format
-      et soins ProfesiaHair, aux prix professionnels. Vous notez les références
-      et les tons qui vous intéressent, vous me répondez sur WhatsApp&nbsp;:
-      je m'occupe du reste.</p>
+    <p class="u-kicker">AF Lix Lox · Distributeur professionnel · Suisse</p>
+    <h1 class="s-hero__titre">Tarifs professionnels<br>pour salons de coiffure.</h1>
+    <p class="s-hero__lede">Colorations, formats professionnels 10 L, masques, soins
+      et produits techniques aux tarifs professionnels AF Lix Lox Suisse.
+      Sélectionnez vos références, contenances et nuances, puis transmettez-nous
+      votre commande sur WhatsApp&nbsp;: nous confirmons ensuite la disponibilité
+      et le montant.</p>
+    <p class="s-hero__label">Offres professionnelles&nbsp;: première commande</p>
     <ul class="s-hero__chiffres">
-      <li><span class="n">10.40 CHF</span><span class="l">Le tube Color 100 ml, 10.90 sans ammoniaque</span></li>
-      <li><span class="n">50.00 CHF</span><span class="l">Le bidon de shampoing 10 L</span></li>
-      <li><span class="n">−50 %</span><span class="l">Sur toute la première commande</span></li>
+      <li><span class="n">24 + 24</span><span class="l">Colorations 100 ml&nbsp;: 24 tubes achetés, 24 offerts</span></li>
+      <li><span class="n">50 + 25 CHF</span><span class="l">Bidons 10 L&nbsp;: le second bidon à −50 %</span></li>
+      <li><span class="n">−50 %</span><span class="l">Masques, soins, technique, Homme et consommables</span></li>
     </ul>
   </div>
 </section>
@@ -375,19 +385,21 @@ def rendre(produits, valides):
     <div class="f-pied__grille">
       <div class="f-pied__marque">
         <img src="assets/img/aflixlox-logo-blanc.png" alt="AF Lix Lox" width="1200" height="259">
-        <p>Distribution de cosmétiques professionnels en Suisse.</p>
+        <p>Distributeur de produits capillaires et cosmétiques professionnels
+          en Suisse.</p>
       </div>
       <div class="f-pied__col">
         <h2>Comment commander</h2>
-        <p>Répondez-moi directement dans notre conversation WhatsApp&nbsp;: les
-          références, les contenances et, pour les colorations, les numéros de ton
-          et les quantités. Je confirme la disponibilité et le total avant l'envoi.</p>
+        <p>Sélectionnez vos références, contenances et nuances, puis envoyez-nous
+          votre sélection directement sur WhatsApp. Nous confirmons la disponibilité
+          et le montant de la commande avant expédition.</p>
       </div>
       <div class="f-pied__col">
-        <h2>Tarifs</h2>
+        <h2>Tarifs et offres</h2>
         <p>Prix professionnels en francs suisses, par unité. Les offres de première
-          commande ne s'appliquent qu'à l'ouverture du compte&nbsp;; les conditions
-          de réassort valent ensuite sans limite de durée.</p>
+          commande s'appliquent à l'ouverture du compte&nbsp;; les conditions de
+          réassort valent ensuite sans limite de durée. Chaque offre concerne sa
+          propre catégorie et ne se cumule pas avec une autre sur un même produit.</p>
         <p class="f-pied__maj">Catalogue à jour au {maj}</p>
       </div>
     </div>

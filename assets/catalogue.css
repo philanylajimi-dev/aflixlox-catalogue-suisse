@@ -272,10 +272,21 @@ a { color: inherit; text-decoration: none; }
   color: rgb(var(--ink-rgb) / 0.68);
 }
 
+.s-hero__label {
+  margin-block-start: clamp(1.75rem, 4vw, 2.5rem);
+  margin-block-end: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
 .s-hero__chiffres {
   display: grid;
   gap: 1px;
-  margin-block-start: clamp(1.75rem, 4vw, 2.5rem);
+  margin-block-start: 0;
   background: var(--line);
   border: 1px solid var(--line);
   grid-template-columns: 1fr;
@@ -455,8 +466,17 @@ a { color: inherit; text-decoration: none; }
   text-align: right;
 }
 
-/* La dernière ligne porte le chiffre que le salon retient. */
-.o-ligne:last-child dd { color: var(--accent); }
+/* L'accent est posé ligne par ligne, sur le chiffre que le salon retient —
+   et non sur la dernière, qui n'est pas toujours la bonne. */
+.o-ligne--accent dd { color: var(--accent); }
+
+.o-ligne__sous {
+  display: block;
+  margin-block-start: 0.125rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgb(255 255 255 / 0.55);
+}
 
 .o-carte__note {
   margin-block-start: auto;
@@ -464,6 +484,16 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.8125rem;
   line-height: 1.5;
   color: rgb(255 255 255 / 0.55);
+}
+
+.o-clarif {
+  max-width: 62ch;
+  margin-block-start: var(--s-5);
+  padding-inline-start: var(--s-4);
+  border-inline-start: 2px solid var(--accent);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgb(255 255 255 / 0.68);
 }
 
 /* ------------------------------------------------------------------ *
@@ -491,6 +521,15 @@ a { color: inherit; text-decoration: none; }
   padding-block-end: var(--s-3);
   border-block-end: 1px solid var(--ink);
   font-size: 1.0625rem;
+}
+
+.r-bloc__sous {
+  margin-block-start: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
 }
 
 .r-liste { display: grid; gap: var(--s-4); margin-block-start: var(--s-4); }
@@ -934,7 +973,9 @@ a { color: inherit; text-decoration: none; }
   .h-logo img { height: 1.625rem; }
 
   .c-grille { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .r-grille { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Quatre blocs : deux gammes de coloration, puis les deux autres catégories.
+     Une grille 2 × 2 garde ce pairage lisible à toutes les largeurs. */
+  .r-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .c-groupe__note { text-align: right; }
 
   .g-carte { flex-direction: row; }

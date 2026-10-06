@@ -39,67 +39,97 @@ EXCLUS = {"poudre-decolorante-grise-a-neuf-tons-500-g-5017"}
 OFFRES_PREMIERE = [
     {
         "rang": "01",
-        "famille": "Coloration 100 ml",
-        "titre": "24 tubes achetés,<br>24 offerts",
+        "famille": "Colorations 100 ml",
+        "titre": "24 tubes achetés,<br>24 tubes offerts",
         "image": "coloration-color-7-0-100-ml",
         "lignes": [
-            ("Tubes livrés", "48"),
-            ("Total", "249.60 CHF"),
-            ("Revient à", "5.20 CHF le tube"),
+            {"l": "Tubes reçus", "v": "48"},
+            {"l": "Color · 24 × 10.40", "v": "249.60 CHF",
+             "s": "5.20 le tube", "a": True},
+            {"l": "Ekstra Color · 24 × 10.90", "v": "261.60 CHF",
+             "s": "5.45 le tube", "a": True},
         ],
-        "note": "Tons au choix. Montants établis sur la gamme Color à 10.40 CHF le tube&nbsp;; Ekstra Color sans ammoniaque est à 10.90 CHF.",
+        "note": "Toutes les nuances des deux gammes, au choix. Les colorations "
+                "disposent de leur propre offre&nbsp;: la remise de −50 % ne "
+                "s'y applique pas.",
         "vedette": True,
     },
     {
         "rang": "02",
-        "famille": "Shampoing 10 L",
-        "titre": "Le 2<sup>e</sup> bidon<br>à moitié prix",
+        "famille": "Bidons 10 L",
+        "titre": "Le second bidon<br>à moitié prix",
         "image": "shampoing-pour-cheveux-secs-bidon-de-10-litres",
         "lignes": [
-            ("1<sup>er</sup> bidon", "50.00 CHF"),
-            ("2<sup>e</sup> bidon", "25.00 CHF"),
-            ("Les deux", "75.00 CHF"),
+            {"l": "Premier bidon", "v": "50.00 CHF"},
+            {"l": "Second bidon, −50 %", "v": "25.00 CHF"},
+            {"l": "Les deux bidons", "v": "75.00 CHF",
+             "s": "37.50 le bidon", "a": True},
         ],
-        "note": "Amande, graines de lin ou cheveux secs, au choix.",
+        "note": "Shampoing amande, graines de lin ou cheveux secs, au choix. "
+                "Les bidons 10 L disposent de leur propre offre.",
         "vedette": False,
     },
     {
         "rang": "03",
-        "famille": "Masques &amp; soins",
-        "titre": "−50 % sur toute<br>la première commande",
+        "famille": "Tous les autres produits",
+        "titre": "−50 % sur l'ensemble<br>du reste du catalogue",
         "image": "masque-soin-cheveux-secs-1500-ml",
         "lignes": [
-            ("Masque Dry 1 500 ml", "19.45 CHF"),
-            ("Première commande", "9.73 CHF"),
-            ("Sur le reste du catalogue", "−50 %"),
+            {"l": "Masque 1 500 ml, 19.45 CHF", "v": "9.73 CHF"},
+            {"l": "Shampoing 1 000 ml, 20.50 CHF", "v": "10.25 CHF"},
+            {"l": "Sur toutes ces références", "v": "−50 %", "a": True},
         ],
-        "note": "La remise s'applique à l'ensemble des masques, soins et autres références.",
+        "note": "Masques, soins, produits techniques et lissages, gamme Homme, "
+                "produits de finition et consommables. Hors colorations et "
+                "bidons 10 L.",
         "vedette": False,
     },
 ]
 
+# Le point que les salons comprennent mal s'ils ne le lisent pas noir sur blanc.
+OFFRES_CLARIFICATION = (
+    "Ces trois offres sont indépendantes et s'appliquent chacune à sa catégorie. "
+    "Elles ne se cumulent pas sur un même produit, mais peuvent figurer ensemble "
+    "sur une même commande. Aucune catégorie n'est obligatoire pour en bénéficier."
+)
+
 OFFRES_SUIVANTES = [
     {
-        "famille": "Coloration 100 ml",
+        "famille": "Colorations Color",
+        "sous": "10.40 CHF le tube de 100 ml",
         "formules": [
             {"achat": "12 achetés", "offert": "+ 2 offerts", "total": "14 tubes",
              "prix": "124.80 CHF", "unite": "8.91 CHF le tube"},
             {"achat": "24 achetés", "offert": "+ 6 offerts", "total": "30 tubes",
              "prix": "249.60 CHF", "unite": "8.32 CHF le tube"},
         ],
-        "note": "Montants calculés sur la gamme Color à 10.40 CHF le tube.",
+        "note": "Le nombre de tubes offerts progresse avec le volume commandé.",
     },
     {
-        "famille": "Shampoing 10 L",
+        "famille": "Colorations Ekstra Color",
+        "sous": "10.90 CHF le tube de 100 ml, sans ammoniaque",
+        "formules": [
+            {"achat": "12 achetés", "offert": "+ 2 offerts", "total": "14 tubes",
+             "prix": "130.80 CHF", "unite": "9.34 CHF le tube"},
+            {"achat": "24 achetés", "offert": "+ 6 offerts", "total": "30 tubes",
+             "prix": "261.60 CHF", "unite": "8.72 CHF le tube"},
+        ],
+        "note": "Mêmes mécaniques que la gamme Color, au tarif de la gamme "
+                "sans ammoniaque.",
+    },
+    {
+        "famille": "Bidons 10 L",
+        "sous": "Shampoings de bac, trois références",
         "formules": [
             {"achat": "À l'unité", "offert": "", "total": "1 bidon de 10 litres",
              "prix": "50.00 CHF", "unite": "5.00 CHF le litre"},
         ],
     },
     {
-        "famille": "Masques, soins et reste du catalogue",
+        "famille": "Tous les autres produits",
+        "sous": "Masques, soins, technique, Homme, consommables",
         "formules": [
-            {"achat": "À l'unité", "offert": "", "total": "Sans minimum",
+            {"achat": "À l'unité", "offert": "", "total": "Sans minimum de commande",
              "prix": "Tarif professionnel", "unite": "Prix affichés dans le catalogue"},
         ],
     },
@@ -152,13 +182,13 @@ SECTIONS = [
         "numero": "03",
         "titre": "Bidons 10 litres",
         "nav": "Bidons 10 L",
-        "intro": "Le format qui fait tourner le bac. Trois shampoings de lavage "
-                 "courant, en bidon salon.",
+        "intro": "Formats professionnels adaptés à une utilisation intensive en "
+                 "salon. Trois shampoings de lavage courant.",
         "groupes": [
             {
                 "nom": "Shampoings de bac",
                 "marque": "ProfesiaHair",
-                "note": "50.00 CHF le bidon · deuxième bidon à −50 % sur la première commande",
+                "note": "50.00 CHF le bidon · second bidon à −50 % en première commande",
                 "produits": [
                     ("shampoing-pour-cheveux-secs-bidon-de-10-litres",
                      "Shampoing Dry Hair Care", "10 L",
@@ -178,8 +208,8 @@ SECTIONS = [
         "numero": "04",
         "titre": "Masques grand format",
         "nav": "Masques",
-        "intro": "Les contenances qui tiennent la saison. Le 1 500 ml en tête, "
-                 "puis les pots de 1 000 ml de chaque gamme.",
+        "intro": "Grandes contenances pour un usage quotidien en cabine. Le pot de "
+                 "1 500 ml, puis les 1 000 ml de chaque gamme.",
         "groupes": [
             {
                 "nom": "Grands formats",
@@ -208,7 +238,7 @@ SECTIONS = [
         "titre": "Soins par gamme",
         "nav": "Soins",
         "intro": "Chaque shampoing avec son masque et ses compléments, pour "
-                 "composer une cabine cohérente.",
+                 "composer une gamme cohérente en cabine.",
         "groupes": [
             {
                 "nom": "Dry Hair Care",
@@ -242,7 +272,7 @@ SECTIONS = [
                      "Compense le stress de la coloration."),
                     ("shampoing-color-care-pour-cheveux-colores-300-ml",
                      "Shampoing Color Care", "300 ml",
-                     "Myrtille et protection UV, à vendre au client."),
+                     "Myrtille et protection UV, format revente."),
                     ("spray-protecteur-de-couleur-200-ml",
                      "Spray thermoprotecteur", "200 ml",
                      "Protège du fer et du sèche-cheveux, facilite le brushing."),
@@ -340,7 +370,7 @@ SECTIONS = [
                      "Protéines de soie, neutralise jaunes et cuivrés."),
                     ("shampooing-anti-jaunissement-no-yellow-care-500-ml",
                      "Shampoing No Yellow", "500 ml",
-                     "Le format d'appoint, à garder au bac."),
+                     "Format d'appoint pour le bac."),
                 ],
             },
             {
@@ -388,8 +418,8 @@ SECTIONS = [
         "numero": "06",
         "titre": "Technique salon",
         "nav": "Technique",
-        "intro": "Lissage, permanente et réparation : les protocoles réservés "
-                 "au poste technique.",
+        "intro": "Lissage, permanente et réparation : les protocoles réservés au "
+                 "poste technique.",
         "groupes": [
             {
                 "nom": "Ekstra Liss",
@@ -508,7 +538,7 @@ SECTIONS = [
         "numero": "08",
         "titre": "Autour du poste",
         "nav": "Divers",
-        "intro": "Ce qui complète la commande.",
+        "intro": "Compléments et consommables de salon.",
         "groupes": [
             {
                 "nom": "Accessoires et divers",
