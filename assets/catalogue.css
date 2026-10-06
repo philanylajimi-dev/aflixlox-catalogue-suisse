@@ -534,6 +534,15 @@ a { color: inherit; text-decoration: none; }
   color: rgb(var(--ink-rgb) / 0.55);
 }
 
+.r-bloc__note {
+  margin-block-start: var(--s-4);
+  padding-block-start: var(--s-3);
+  border-block-start: 1px solid var(--line);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: rgb(var(--ink-rgb) / 0.55);
+}
+
 /* ------------------------------------------------------------------ *
  * 8. Gammes de coloration
  * ------------------------------------------------------------------ */
@@ -697,50 +706,45 @@ a { color: inherit; text-decoration: none; }
   border-collapse: collapse;
 }
 
-.a-table th,
-.a-table td {
-  padding-block: 0.5625rem;
-  border-block-end: 1px solid var(--line);
-  font-family: var(--font-mono);
-  font-weight: 400;
-  vertical-align: baseline;
-}
-
-.a-table thead th {
+/* Les quatre volumes ne se distinguent que par un chiffre : une liste à filets
+   se lit mieux qu'un tableau à colonne unique. */
+.a-bloc__fmt {
+  margin-block-start: var(--s-4);
   padding-block-end: var(--s-2);
-  border-block-end-color: var(--ink);
-  font-size: 0.6875rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgb(var(--ink-rgb) / 0.5);
-}
-
-.a-table tbody th {
-  font-size: 0.8125rem;
-  letter-spacing: 0.02em;
-  text-align: left;
-}
-
-.a-table td,
-.a-table thead th {
-  text-align: right;
-  white-space: nowrap;
-}
-
-.a-table tbody td {
-  font-size: 0.9375rem;
-  font-weight: 500;
-}
-
-.a-bloc__dev {
-  margin-block-start: var(--s-3);
+  border-block-end: 1px solid var(--ink);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgb(var(--ink-rgb) / 0.5);
 }
+
+.a-ligne {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding-block: 0.625rem;
+  border-block-end: 1px solid var(--line);
+}
+
+.a-ligne dt {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+}
+
+.a-ligne dd {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3125rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.a-ligne .c-prix__val { font-size: 0.9375rem; }
 
 /* ------------------------------------------------------------------ *
  * 10. Groupes et cartes produit
@@ -964,7 +968,15 @@ a { color: inherit; text-decoration: none; }
 
   .o-grille { grid-template-columns: 1.3fr 1fr 1fr; }
   .o-carte--vedette { grid-column: auto; }
-  .o-carte--vedette .o-carte__visuel { aspect-ratio: 4 / 3; }
+
+  /* Hauteur fixe plutôt qu'un ratio : les colonnes n'ayant pas la même largeur,
+     un ratio ferait démarrer les trois blocs de texte à des hauteurs
+     différentes. */
+  .o-carte__visuel,
+  .o-carte--vedette .o-carte__visuel {
+    aspect-ratio: auto;
+    height: 17rem;
+  }
 
   .g-carte__visuel { flex-basis: 34%; }
   .g-carte__corps { padding: var(--s-6); }

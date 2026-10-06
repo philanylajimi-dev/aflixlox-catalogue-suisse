@@ -98,6 +98,7 @@ def typo(doc):
             continue
         m = re.sub(r" +([:;!?»])", "\u00a0" + r"\1", m)
         m = re.sub(r"« +", "«\u00a0", m)
+        m = re.sub(r"(\d) (?=\d)", r"\1" + "\u00a0", m)
         m = m.replace("'", "\u2019")
         morceaux[i] = m
     return "".join(morceaux)
@@ -187,6 +188,7 @@ def bloc_offres(produits):
 
     suivantes = []
     for f in C.OFFRES_SUIVANTES:
+        note = f'<p class="r-bloc__note">{f["note"]}</p>' if f.get("note") else ""
         formules = "".join(f"""<li class="r-formule">
       <p class="r-formule__qte"><span>{x['achat']}</span>{f'<em>{x["offert"]}</em>' if x['offert'] else ''}</p>
       <p class="r-formule__total">{x['total']}</p>
@@ -196,6 +198,7 @@ def bloc_offres(produits):
         suivantes.append(f"""<div class="r-bloc">
     <h3 class="r-bloc__titre">{f['famille']}</h3>
     <ul class="r-liste">{formules}</ul>
+    {note}
   </div>""")
 
     return f"""<section class="s-offres" id="offres" aria-labelledby="t-offres">
@@ -247,12 +250,11 @@ def bloc_colorations(produits, valides):
 
     a = C.ACTIVATEURS
     lignes = []
-    for label, h_litre, h_petit in a["lignes"]:
-        lignes.append(f"""<tr>
-      <th scope="row">{label}</th>
-      <td>{chf(prix(h_litre, produits))}</td>
-      <td>{chf(prix(h_petit, produits))}</td>
-    </tr>""")
+    for label, handle in a["lignes"]:
+        lignes.append(f"""<div class="a-ligne">
+            <dt>{label}</dt>
+            <dd><span class="c-prix__val">{chf(prix(handle, produits))}</span><span class="c-prix__dev">CHF</span></dd>
+          </div>""")
 
     decos = "".join(carte_produit(h, n, t, acc, produits)
                     for h, n, t, acc in C.DECOLORANTS["produits"]
@@ -263,8 +265,9 @@ def bloc_colorations(produits, valides):
     <header class="s-tete">
       <p class="s-tete__num">02</p>
       <h2 class="s-tete__titre" id="t-colorations">Colorations 100 ml</h2>
-      <p class="s-tete__intro">Deux gammes, un seul tarif. Les tons se choisissent
-        au moment de la commande&nbsp;: indiquez-moi vos numéros, je prépare le colis.</p>
+      <p class="s-tete__intro">Deux gammes, avec ou sans ammoniaque. Les tons se
+        choisissent au moment de la commande&nbsp;: indiquez-moi vos numéros,
+        je prépare le colis.</p>
     </header>
 
     <div class="g-grille">
@@ -276,16 +279,10 @@ def bloc_colorations(produits, valides):
       <div class="a-bloc__corps">
         <h3 class="c-groupe__nom">{a['titre']}</h3>
         <p class="a-bloc__note">{a['sous_titre']}</p>
-        <table class="a-table">
-          <caption class="u-vh">Tarifs des activateurs par volume et contenance, en CHF</caption>
-          <thead>
-            <tr><td></td><th scope="col">1 000 ml</th><th scope="col">150 ml</th></tr>
-          </thead>
-          <tbody>
+        <p class="a-bloc__fmt">{a['contenance']}</p>
+        <dl class="a-liste">
 {chr(10).join(lignes)}
-          </tbody>
-        </table>
-        <p class="a-bloc__dev">Prix en CHF</p>
+        </dl>
       </div>
     </div>
 
@@ -362,7 +359,7 @@ def rendre(produits, valides):
       et les tons qui vous intéressent, vous me répondez sur WhatsApp&nbsp;:
       je m'occupe du reste.</p>
     <ul class="s-hero__chiffres">
-      <li><span class="n">10.40 CHF</span><span class="l">Le tube de coloration 100 ml</span></li>
+      <li><span class="n">10.40 CHF</span><span class="l">Le tube Color 100 ml, 10.90 sans ammoniaque</span></li>
       <li><span class="n">50.00 CHF</span><span class="l">Le bidon de shampoing 10 L</span></li>
       <li><span class="n">−50 %</span><span class="l">Sur toute la première commande</span></li>
     </ul>
@@ -413,8 +410,7 @@ def main():
         for g in s["groupes"]:
             handles.update(p[0] for p in g["produits"])
     handles.update(p[0] for p in C.DECOLORANTS["produits"])
-    for _, a, b in C.ACTIVATEURS["lignes"]:
-        handles.update({a, b})
+    handles.update(h for _, h in C.ACTIVATEURS["lignes"])
     handles.add(C.ACTIVATEURS["image"])
     handles.update(g["image"] for g in C.GAMMES_COLORATION)
     handles.update(o["image"] for o in C.OFFRES_PREMIERE)

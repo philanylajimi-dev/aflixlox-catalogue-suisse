@@ -10,32 +10,36 @@ du thème, c'est-à-dire des textes retravaillés pour le nouveau site.
 
 ## Prix
 
-Trois tarifs sont ceux du brief et priment sur la boutique :
+Tarifs confirmés, identiques à ceux de la boutique sauf pour le bidon :
 
 | Référence | Catalogue | Boutique |
 |---|---|---|
-| Coloration 100 ml | 10.40 CHF | 10.40 CHF (Color) · **10.90 CHF (Ekstra Color)** |
+| Coloration Color 100 ml | 10.40 CHF | 10.40 CHF |
+| Coloration Ekstra Color 100 ml (sans ammoniaque) | 10.90 CHF | 10.90 CHF |
 | Bidon 10 L | 50.00 CHF | 72.00 CHF |
 | Masque 1 500 ml | 19.45 CHF | 19.45 CHF |
 
-**Ekstra Color.** La boutique vend la gamme sans ammoniaque 10.90 CHF, pas
-10.40. Le brief fixant un tarif unique pour les colorations 100 ml, et les
-offres (48 tubes à 249.60 CHF, 14 à 124.80) ne tombant juste qu'à 10.40, le
-catalogue affiche 10.40 sur les deux gammes. **À confirmer** : si Ekstra Color
-reste à 10.90, il faut soit une ligne de prix distincte, soit des offres
-séparées.
+**Les offres coloration portent sur 10.40 CHF.** Les montants du brief
+(48 tubes à 249.60, 14 à 124.80, 30 à 249.60) sont tous des multiples de 10.40,
+donc de la gamme Color. Le catalogue l'indique explicitement sous l'offre de
+première commande et sous les formules de réassort. **À trancher** : comment
+l'offre s'applique à Ekstra Color à 10.90 — même quantités à un montant
+différent, ou quantités offertes recalculées.
 
-**Les autres prix** sont ceux de la boutique. Deux des trois tarifs confirmés y
-correspondant exactement, ils ont été traités comme des tarifs professionnels.
-Rien n'a été inventé : aucun prix n'apparaît qui ne vienne du brief ou de la
-boutique. À valider référence par référence si la grille pro diffère.
+**Les autres prix** sont ceux de la boutique. Les tarifs confirmés y
+correspondant exactement (hors bidon), ils ont été traités comme des tarifs
+professionnels. Rien n'a été inventé : aucun prix n'apparaît qui ne vienne du
+brief ou de la boutique. À valider référence par référence si la grille pro
+diffère.
 
 **TVA.** Le catalogue n'indique ni HT ni TTC, faute d'information. À trancher.
 
 ## Anomalies relevées dans la boutique
 
-- **Activateur 30 vol. 150 ml : 3.42 CHF**, quand les trois autres volumes sont
-  à 3.40. Affiché tel quel. Probable coquille à corriger côté boutique.
+- **Activateurs 150 ml : retirés du catalogue** sur demande. Seul le flacon de
+  1 000 ml est présenté, dans les quatre volumes. Au passage, la boutique les
+  vend 3.40 CHF sauf le 30 vol. à 3.42 — probable coquille à corriger de ce
+  côté-là.
 - **Poudre décolorante grise 9 tons, deux fiches** : `poudre-decolorante-grise-9-tons-500-g`
   (36.60) et `poudre-decolorante-grise-a-neuf-tons-500-g-5017` (35.00), même
   description. Seule la première est publiée ; la seconde est dans `EXCLUS`.

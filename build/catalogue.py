@@ -16,9 +16,10 @@ qu'elle possède une image et une description complètes côté boutique.
 # Tarifs confirmés — priment sur le prix de la boutique.
 # --------------------------------------------------------------------------- #
 
-PRIX_COLORATION = "10.40"   # le tube de 100 ml, toutes gammes
-PRIX_BIDON_10L = "50.00"    # le bidon de 10 litres
-PRIX_MASQUE_1500 = "19.45"  # le pot de 1 500 ml
+PRIX_COLORATION = "10.40"        # tube 100 ml, gamme Color (avec ammoniaque)
+PRIX_COLORATION_EKSTRA = "10.90"  # tube 100 ml, Ekstra Color (sans ammoniaque)
+PRIX_BIDON_10L = "50.00"          # le bidon de 10 litres
+PRIX_MASQUE_1500 = "19.45"        # le pot de 1 500 ml
 
 PRIX_VALIDES = {
     "shampoing-aux-amandes-frequent-care-pour-lavages-frequents-bidon-de-10-litres": PRIX_BIDON_10L,
@@ -46,7 +47,7 @@ OFFRES_PREMIERE = [
             ("Total", "249.60 CHF"),
             ("Revient à", "5.20 CHF le tube"),
         ],
-        "note": "Nuances au choix dans les deux gammes, mélangées librement.",
+        "note": "Tons au choix. Montants établis sur la gamme Color à 10.40 CHF le tube&nbsp;; Ekstra Color sans ammoniaque est à 10.90 CHF.",
         "vedette": True,
     },
     {
@@ -86,6 +87,7 @@ OFFRES_SUIVANTES = [
             {"achat": "24 achetés", "offert": "+ 6 offerts", "total": "30 tubes",
              "prix": "249.60 CHF", "unite": "8.32 CHF le tube"},
         ],
+        "note": "Montants calculés sur la gamme Color à 10.40 CHF le tube.",
     },
     {
         "famille": "Shampoing 10 L",
@@ -129,7 +131,7 @@ GAMMES_COLORATION = [
         "accroche": "Même tenue, sans ammoniaque : confort en cabine et odeur "
                     "nettement plus discrète au bac.",
         "contenance": "Tube 100 ml",
-        "prix": PRIX_COLORATION,
+        "prix": PRIX_COLORATION_EKSTRA,
         "nuances": "37 nuances + 4 boosters",
         "familles": ["Naturels", "Cendrés", "Dorés", "Cuivrés", "Acajou",
                      "Super éclaircissants", "Boosters argent, bleu, violet, rouge"],
@@ -156,7 +158,7 @@ SECTIONS = [
             {
                 "nom": "Shampoings de bac",
                 "marque": "ProfesiaHair",
-                "note": "50.00 CHF le bidon · 2<sup>e</sup> bidon à −50 % sur la première commande",
+                "note": "50.00 CHF le bidon · deuxième bidon à −50 % sur la première commande",
                 "produits": [
                     ("shampoing-pour-cheveux-secs-bidon-de-10-litres",
                      "Shampoing Dry Hair Care", "10 L",
@@ -534,12 +536,13 @@ SECTIONS = [
 ACTIVATEURS = {
     "titre": "Activateurs",
     "sous_titre": "Émulsion oxydante crème, pour Color et Ekstra Color",
+    "contenance": "Flacon de 1 000 ml",
     "image": "activateur-20-volumes-1000-ml",
     "lignes": [
-        ("10 vol. · 3 %", "activateur-10-volumes-1000-ml", "activateur-10-volumes-150-ml"),
-        ("20 vol. · 6 %", "activateur-20-volumes-1000-ml", "activateur-20-volumes-150-ml"),
-        ("30 vol. · 9 %", "activateur-30-volumes-1000-ml", "activateur-30-volumes-150-ml"),
-        ("40 vol. · 12 %", "activateur-40-volumes-1000-ml", "activateur-40-volumes-150-ml"),
+        ("10 vol. · 3 %", "activateur-10-volumes-1000-ml"),
+        ("20 vol. · 6 %", "activateur-20-volumes-1000-ml"),
+        ("30 vol. · 9 %", "activateur-30-volumes-1000-ml"),
+        ("40 vol. · 12 %", "activateur-40-volumes-1000-ml"),
     ],
 }
 
