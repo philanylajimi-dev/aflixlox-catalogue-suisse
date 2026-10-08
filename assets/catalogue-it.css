@@ -1,0 +1,499 @@
+/**
+ * AF Lix Lox — Svizzera Italiana
+ *
+ * Couche propre au catalogue italien, chargée APRÈS catalogue.css. Celle-ci
+ * n'est pas modifiée : la page française doit rester exactement ce qu'elle est.
+ * On réutilise donc tous ses jetons, sa barre collante, son pied de page et son
+ * rythme, et on n'ajoute ici que ce que le catalogue italien a de particulier.
+ *
+ * Et il a une particularité qui commande tout le reste : les trois offres de
+ * lancement doivent se voir avant les produits. D'où un bloc de synthèse sombre
+ * en ouverture, puis une bande sombre par section où le mot « gratis » est,
+ * littéralement, le plus gros élément de la page.
+ */
+
+/* ------------------------------------------------------------------ *
+ * 1. Ouverture
+ * ------------------------------------------------------------------ */
+
+.i-hero {
+  padding-block: clamp(2rem, 5vw, 3.25rem) clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.i-hero__titolo {
+  margin-block-start: var(--s-4);
+  font-size: clamp(1.9rem, 5.6vw, 3.25rem);
+  letter-spacing: -0.028em;
+}
+
+.i-hero__lede {
+  margin-block-start: var(--s-4);
+  max-width: 48ch;
+  font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
+  line-height: 1.65;
+  color: rgb(var(--ink-rgb) / 0.68);
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Les trois offres, ensemble, avant tout le reste
+ * ------------------------------------------------------------------ */
+
+.i-offerte {
+  padding-block: clamp(2.25rem, 5vw, 3.5rem);
+  background: var(--surface-dark);
+  color: #fff;
+}
+
+.i-offerte__tag {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.i-offerte__tag::after {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.i-offerte__titolo {
+  margin-block-start: var(--s-3);
+  font-size: clamp(1.5rem, 3.6vw, 2.125rem);
+}
+
+.i-tessere {
+  display: grid;
+  gap: 1px;
+  padding: 1px;
+  margin-block-start: clamp(1.5rem, 3.5vw, 2.25rem);
+  grid-template-columns: 1fr;
+}
+
+/* Même procédé que les grilles du catalogue français : le filet est porté par
+   les tuiles, pour qu'une rangée incomplète ne laisse jamais d'aplat vide. */
+.i-tessera {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  background: var(--surface-dark);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.16);
+  transition: background var(--dur) var(--ease);
+}
+
+.i-tessera:hover,
+.i-tessera:focus-visible {
+  background: #171717;
+}
+
+.i-tessera__sez {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.55);
+}
+
+.i-tessera__sez span {
+  padding: 0.1875rem 0.375rem;
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.i-tessera__big {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: clamp(1.0625rem, 3vw, 1.3125rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.i-tessera__big em {
+  display: block;
+  margin-block-start: var(--s-2);
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(1.75rem, 5.5vw, 2.5rem);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.i-tessera__freccia {
+  margin-block-start: auto;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: rgb(255 255 255 / 0.45);
+  transition: transform var(--dur) var(--ease);
+}
+
+.i-tessera:hover .i-tessera__freccia {
+  transform: translateY(0.25rem);
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ *
+ * 3. Sections
+ * ------------------------------------------------------------------ */
+
+.i-sez { padding-block: var(--section-y); }
+.i-sez--alt { background: var(--surface-alt); }
+.i-sez + .i-sez { border-block-start: 1px solid var(--line); }
+
+.i-testa {
+  max-width: 44ch;
+  margin-block-end: clamp(1.5rem, 3.5vw, 2.25rem);
+}
+
+.i-testa__num {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-block-end: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--accent-deep);
+}
+
+.i-testa__num::after {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.i-testa__titolo { font-size: clamp(1.5rem, 3.6vw, 2.125rem); }
+
+.i-testa__intro {
+  margin-block-start: var(--s-3);
+  font-size: 0.9375rem;
+  color: rgb(var(--ink-rgb) / 0.66);
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. La bande d'offre — l'élément le plus visible de chaque section
+ * ------------------------------------------------------------------ */
+
+.i-banda {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  margin-block-end: clamp(1.75rem, 4vw, 2.75rem);
+  background: var(--surface-dark);
+  color: #fff;
+}
+
+.i-banda__tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.i-big {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--s-3);
+  margin-block-start: var(--s-4);
+}
+
+.i-big__n {
+  font-family: var(--font-mono);
+  font-size: clamp(1.375rem, 4.4vw, 2.5rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.i-big__op {
+  font-family: var(--font-mono);
+  font-size: clamp(1.125rem, 3.4vw, 1.875rem);
+  color: rgb(255 255 255 / 0.45);
+}
+
+/* Le mot que le salon doit voir en premier : il occupe sa propre ligne et
+   descend jusqu'à 6rem sur grand écran. */
+.i-big__free {
+  flex: 0 0 100%;
+  margin-block-start: var(--s-2);
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(2.75rem, 11vw, 6rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.i-banda__nota {
+  margin-block-start: var(--s-4);
+  font-size: 0.875rem;
+  color: rgb(255 255 255 / 0.6);
+}
+
+/* ------------------------------------------------------------------ *
+ * 5. Fiches produit
+ * ------------------------------------------------------------------ */
+
+.i-griglia {
+  display: grid;
+  gap: 1px;
+  padding: 1px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.i-carta {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.i-carta__img {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.i-carta__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8%;
+  /* Packshots détourés sur blanc : multiply fond le cadre dans la tuile. */
+  mix-blend-mode: multiply;
+  transition: transform 600ms var(--ease);
+}
+
+.i-carta:hover .i-carta__img img { transform: scale(1.04); }
+
+.i-carta__corpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--s-4);
+}
+
+.i-carta__linea {
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+
+.i-carta__sotto {
+  margin-block-start: var(--s-1);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+}
+
+/* Le tableau de prix est calé en bas de fiche : les deux lignes se retrouvent
+   à la même hauteur dans toute la rangée, quelle que soit la longueur des noms. */
+.i-prezzi {
+  margin-block-start: auto;
+  padding-block-start: var(--s-3);
+}
+
+.i-riga {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding-block: 0.4375rem;
+  border-block-start: 1px solid var(--line);
+}
+
+.i-riga dt {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-rgb) / 0.55);
+}
+
+.i-riga dd { flex: 0 0 auto; }
+
+/* ------------------------------------------------------------------ *
+ * 6. Prix — CHF en tête, virgule décimale
+ * ------------------------------------------------------------------ */
+
+.p-prezzo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3125rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.p-prezzo__cur {
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: rgb(var(--ink-rgb) / 0.55);
+}
+
+.p-prezzo__val { font-size: 1rem; }
+.p-prezzo__cts { font-size: 0.78em; }
+
+.p-prezzo--lg .p-prezzo__val { font-size: 1.75rem; }
+.p-prezzo--lg .p-prezzo__cur { font-size: 0.75rem; }
+
+/* ------------------------------------------------------------------ *
+ * 7. Colorazioni
+ * ------------------------------------------------------------------ */
+
+.i-claim {
+  padding-inline-start: var(--s-4);
+  margin-block-end: clamp(1.25rem, 3vw, 1.75rem);
+  border-inline-start: 2px solid var(--accent);
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  letter-spacing: -0.01em;
+}
+
+.i-gamme {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-columns: 1fr;
+}
+
+.i-gamma {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+/* En disposition horizontale le visuel perd son ratio : c'est la colonne de
+   texte qui donne la hauteur, d'où l'image positionnée. */
+.i-gamma__img {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-block-end: 1px solid var(--line);
+}
+
+.i-gamma__img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--s-4);
+  mix-blend-mode: multiply;
+}
+
+.i-gamma__corpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--s-5);
+}
+
+.i-gamma__nome { font-size: clamp(1.25rem, 3vw, 1.5rem); }
+
+.i-gamma__nome span {
+  display: block;
+  margin-block-start: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+}
+
+.i-gamma__piede {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-block-start: auto;
+  padding-block-start: var(--s-5);
+}
+
+.i-gamma__formato {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-rgb) / 0.6);
+}
+
+.i-nota {
+  max-width: 60ch;
+  margin-block-start: clamp(1.25rem, 3vw, 1.75rem);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgb(var(--ink-rgb) / 0.62);
+}
+
+/* ------------------------------------------------------------------ *
+ * 8. Paliers
+ * ------------------------------------------------------------------ */
+
+@media (min-width: 34em) {
+  .i-tessere { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 48em) {
+  .i-griglia { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Quatre linee de maschere : une rangée pleine plutôt qu'une orpheline. */
+  .i-griglia--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .i-gamme { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* Le ratio 4/3 rendait la zone visuelle démesurée dès que la carte
+     s'élargit : hauteur fixe, le packshot reste centré dedans. */
+  .i-gamma__img { aspect-ratio: auto; height: 19rem; }
+
+  .i-banda {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    column-gap: var(--s-6);
+  }
+  .i-banda__tag { grid-column: 1 / -1; }
+  .i-banda__nota { margin-block-start: 0; text-align: right; }
+}
+
+@media (min-width: 62em) {
+  .i-griglia { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .i-griglia--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .i-gamma__corpo { padding: var(--s-6); }
+}
+
+/* ------------------------------------------------------------------ *
+ * 9. Apparition et impression
+ * ------------------------------------------------------------------ */
+
+@media print {
+  .i-offerte, .i-banda { background: #fff; color: #000; }
+  .i-offerte .i-tessera { background: #fff; color: #000; }
+  .i-banda__nota, .i-tessera__sez, .i-tessera__freccia { color: #333; }
+  .i-sez, .i-sez--alt { background: #fff; }
+  .i-carta, .i-gamma, .i-tessera, .i-banda { break-inside: avoid; }
+}
