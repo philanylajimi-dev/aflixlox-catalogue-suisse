@@ -315,26 +315,30 @@
   padding-block-start: var(--s-3);
 }
 
+/* Format et prix tiennent sur une ligne tant qu'il y a la place ; en dessous le
+   prix passe dessous plutôt que d'être rogné. */
 .i-riga {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  justify-content: space-between;
-  gap: var(--s-3);
+  gap: 0 var(--s-2);
   padding-block: 0.4375rem;
   border-block-start: 1px solid var(--line);
 }
 
+/* Une contenance coupée en deux (« 1500 / ML ») se lit mal : elle tient sur une
+   ligne, et c'est la gouttière qui cède si la place manque. */
 .i-riga dt {
-  flex: 1 1 auto;
-  min-width: 0;
+  flex: 0 1 auto;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: rgb(var(--ink-rgb) / 0.55);
 }
 
-.i-riga dd { flex: 0 0 auto; }
+.i-riga dd { flex: 0 0 auto; margin-inline-start: auto; }
 
 /* ------------------------------------------------------------------ *
  * 6. Prix — CHF en tête, virgule décimale

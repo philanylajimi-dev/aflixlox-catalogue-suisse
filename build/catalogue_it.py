@@ -33,9 +33,15 @@ OFFERTE = [
         "id": "maschere",
         "rango": "02",
         "sezione": "Maschere",
-        "grande": [("n", "1"), ("op", "+"), ("n", "1"), ("free", "gratis")],
-        "sintesi": "1 + 1",
-        "nota": "Su tutte le quattro linee, nei due formati.",
+        # La condition tient sur la ligne en chiffres, le cadeau occupe la
+        # ligne géante : c'est le 500 ml offert que le salon doit retenir.
+        # Pas de flèche ici : sur un écran étroit la ligne en chiffres passe sur
+        # deux lignes et la flèche se retrouverait seule. « Ogni » suffit à poser
+        # la condition.
+        "grande": [("n", "Ogni maschera da 1000 o 1500 ml"),
+                   ("free", "500 ml gratis")],
+        "sintesi": "1000/1500 ml → 500 ml",
+        "nota": "Valida su tutte le linee.",
     },
     {
         "id": "colorazioni",
